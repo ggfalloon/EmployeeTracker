@@ -50,21 +50,55 @@ function updateData() {
                 "Remove Role",
                 "View All Departments",
                 "Add Department",
-                "Remove Department"
+                "Remove Department",
+                "Exit"
             ]
         })
         .then(function (answer) {
+            switch (answer.updateData) {
+                case "View All Employees":
+                    readData();
+                    break;
 
-            if (answer.updateData === "Add Department?") {
-                addDepartment();
-            }
-            else if (answer.updateData === "Add Role?") {
-                addRole();
-            }
-            else if (answer.updateData === "Add employee?") {
-                addRole();
-            } else {
-                connection.end();
+                case "Add Employee":
+                    addEmp();
+                    break;
+
+                case "Remove Employee":
+                    removeEmp();
+                    break;
+
+                case "Update Emplyee Role":
+                    updateEmp();
+                    break;
+
+                case "View All Roles":
+                    viewRoles();
+                    break;
+
+                case "Add Role":
+                    addRole();
+                    break;
+
+                case "Remove Role":
+                    removeRole();
+                    break;
+
+                case "View All Departments":
+                    viewDep();
+                    break;
+
+                case "Add Department":
+                    addDep();
+                    break;
+
+                case "Remove Department":
+                    removeDep();
+                    break;
+
+                case "Exit":
+                    connection.end();
+                    break;
             }
         });
 }

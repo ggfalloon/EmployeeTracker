@@ -20,10 +20,20 @@ const connection = mysql.createConnection({
 connection.connect(function (err) {
     if (err) throw err;
     // run the start function after the connection is made to prompt the user
-    start();
+    readData();
 });
 
-function start() {
+function readData() {
+    connection.query("Here is your current employee data...", function (err, res) {
+        if (err) throw err;
+
+        // Log all results
+        console.log(res);
+        addData();
+    });
+}
+
+function addData() {
     inquirer
         .prompt({
             name: "addData",
@@ -32,12 +42,15 @@ function start() {
             choices: ["Add Department?", "Add Role?", "Add employee?"]
         })
         .then(function (answer) {
-            // based on their answer, either call the bid or the post functions
-            if (answer.addData === "POST") {
-                postAuction();
+
+            if (answer.addData === "Add Department?") {
+                addDepartment();
             }
-            else if (answer.postOrBid === "BID") {
-                bidAuction();
+            else if (answer.postOrBid === "Add Role?") {
+                addRole();
+            }
+            else if (answer.addData === "Add employee?") {
+                addRole();
             } else {
                 connection.end();
             }

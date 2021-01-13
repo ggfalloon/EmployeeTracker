@@ -1,7 +1,8 @@
-var mysql = require("mysql");
-var inquirer = require("inquirer");
+const mysql = require("mysql");
+const inquirer = require("inquirer");
+const cTable = require('console.table');
 
-var connection = mysql.createConnection({
+const connection = mysql.createConnection({
     host: "localhost",
 
     // Your port; if not 3306
@@ -21,3 +22,24 @@ connection.connect(function (err) {
     // run the start function after the connection is made to prompt the user
     start();
 });
+
+function start() {
+    inquirer
+        .prompt({
+            name: "addData",
+            type: "list",
+            message: "What would you like to do?",
+            choices: ["Add Department?", "Add Role?", "Add employee?"]
+        })
+        .then(function (answer) {
+            // based on their answer, either call the bid or the post functions
+            if (answer.addData === "POST") {
+                postAuction();
+            }
+            else if (answer.postOrBid === "BID") {
+                bidAuction();
+            } else {
+                connection.end();
+            }
+        });
+}

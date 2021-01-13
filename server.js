@@ -24,10 +24,11 @@ connection.connect(function (err) {
 });
 
 function readData() {
-    connection.query("Here is your current employee data...", function (err, res) {
+    connection.query("SELECT * FROM employee", function (err, res) {
         if (err) throw err;
 
         // Log all results
+        console.log("HERE IS YOUR CURRENT EMPLOYEE DATA")
         console.log(res);
         addData();
     });

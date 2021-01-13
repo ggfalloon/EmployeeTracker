@@ -28,29 +28,40 @@ function readData() {
         if (err) throw err;
 
         // Log all results
-        console.log("HERE IS YOUR CURRENT EMPLOYEE DATA")
-        console.log(res);
-        addData();
+        console.log("\nHERE IS YOUR CURRENT EMPLOYEE DATABASE:\n")
+        console.table(res);
+        updateData();
     });
 }
 
-function addData() {
+function updateData() {
     inquirer
         .prompt({
-            name: "addData",
+            name: "updateData",
             type: "list",
             message: "What would you like to do?",
-            choices: ["Add Department?", "Add Role?", "Add employee?"]
+            choices: [
+                "View All Employees",
+                "Add Employee",
+                "Remove Employee",
+                "Update Emplyee Role",
+                "View All Roles",
+                "Add Role",
+                "Remove Role",
+                "View All Departments",
+                "Add Department",
+                "Remove Department"
+            ]
         })
         .then(function (answer) {
 
-            if (answer.addData === "Add Department?") {
+            if (answer.updateData === "Add Department?") {
                 addDepartment();
             }
-            else if (answer.postOrBid === "Add Role?") {
+            else if (answer.updateData === "Add Role?") {
                 addRole();
             }
-            else if (answer.addData === "Add employee?") {
+            else if (answer.updateData === "Add employee?") {
                 addRole();
             } else {
                 connection.end();

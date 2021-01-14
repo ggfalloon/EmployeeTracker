@@ -4,11 +4,8 @@ const cTable = require('console.table');
 
 const connection = mysql.createConnection({
     host: "localhost",
-
     port: 3306,
-
     user: "root",
-
     password: "58153027",
     database: "emp_trackerDB"
 });
@@ -98,6 +95,8 @@ function updateData() {
 }
 
 function addEmp() {
+    let roleId = connection.query("SELECT id, title FROM emp_trackerDB.role")
+    let mgrId = connection.query("SELECT CONCAT(first_name, ' ', last_name) as manager FROM emp_trackerDB.employee")
     inquirer
         .prompt([
             {
@@ -152,7 +151,7 @@ function addEmp() {
 }
 
 function removeEmp() {
-    let choices = [connection.query("SELECT CONCAT(first_name, ' ', last_name) as name FROM emp_trackerDB.employee")];
+    let choices = connection.query("SELECT CONCAT(first_name, ' ', last_name) as name FROM emp_trackerDB.employee");
     inquirer
         .prompt({
             name: "name",

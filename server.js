@@ -24,10 +24,10 @@ connection.connect(function (err) {
 });
 
 function readData() {
-    connection.query("SELECT * FROM employee", function (err, res) {
+    connection.query("SELECT employee.id, first_name, last_name, title, department.name as department, salary, manager_id as manager FROM emp_trackerDB.employee LEFT JOIN role ON role_id = role.id INNER JOIN department ON department.id = department_id", function (err, res) {
         if (err) throw err;
 
-        // Log all results
+        // Write code to convert manager id to full name!!!
         console.log("\nHERE IS YOUR CURRENT EMPLOYEE DATABASE:\n")
         console.table(res);
         updateData();
@@ -101,4 +101,84 @@ function updateData() {
                     break;
             }
         });
+}
+
+function addEmp() {
+    inquirer
+        .prompt([
+            {
+                name: "firstName",
+                type: "input",
+                message: "New employee first name?"
+            },
+            {
+                name: 'lastName',
+                type: 'input',
+                message: 'New employee last name?'
+            },
+            {
+                name: 'role',
+                type: 'list',
+                message: 'New employee role',
+                choices: [
+                    "Marketing Specialist",
+                    "Sales Manager",
+                    "Software Engineer"
+                ]
+                // Write code to convert to role id #
+            },
+            {
+                name: 'mgr',
+                type: 'list',
+                message: 'New employee manager?',
+                choices: [
+                    "Brad Pitt",
+                    "Beyonce Knowles"
+                ]
+                // Write code to convert to manager id #
+            },
+        ])
+        .then(function (answer) {
+            connection.query(
+                "INSERT INTO employee SET ?",
+                {
+                    first_name: answer.firstName,
+                    last_name: answer.lastName,
+                    role_id: answer.role,
+                    manager_id: answer.mgr
+                },
+                function (err) {
+                    if (err) throw err;
+                    console.log("Your new employee was added successfully!");
+                    updateData();
+                }
+            );
+        })
+
+}
+
+function removeEmp() {
+    inquirer
+        .prompt({
+            name: "name",
+            type: "list",
+            message: "Which employee would you like to remove?",
+            choices: [connection.query("SELECT first_name, last_name FROM employee")
+            ]
+        })
+        .then(function (answer) {
+            connection.query(
+                "DELETE FROM employee WHERE ?",
+                {
+                    first_name: answer.choice,
+
+                },
+                function (err) {
+                    if (err) throw err;
+                    console.log("The employee was deleted successfully!");
+                    updateData();
+                }
+            );
+        })
+
 }

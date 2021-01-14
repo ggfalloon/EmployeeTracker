@@ -5,29 +5,23 @@ const cTable = require('console.table');
 const connection = mysql.createConnection({
     host: "localhost",
 
-    // Your port; if not 3306
     port: 3306,
 
-    // Your username
     user: "root",
 
-    // Your password
     password: "58153027",
     database: "emp_trackerDB"
 });
 
-// connect to the mysql server and sql database
 connection.connect(function (err) {
     if (err) throw err;
-    // run the start function after the connection is made to prompt the user
     readData();
 });
 
 function readData() {
-    connection.query("SELECT employee.id, first_name, last_name, title, department.name as department, salary, manager_id as manager FROM emp_trackerDB.employee LEFT JOIN role ON role_id = role.id INNER JOIN department ON department.id = department_id", function (err, res) {
+    connection.query("SELECT A.id, A.first_name, A.last_name, title, department.name as department, salary, CONCAT(B.first_name, ' ', B.last_name) as manager FROM emp_trackerDB.employee A LEFT JOIN emp_trackerDB.employee B ON A.manager_id = B.id INNER JOIN role ON A.role_id = role.id INNER JOIN department ON department.id = department_id", function (err, res) {
         if (err) throw err;
 
-        // Write code to convert manager id to full name!!!
         console.log("\nHERE IS YOUR CURRENT EMPLOYEE DATABASE:\n")
         console.table(res);
         updateData();
@@ -158,19 +152,19 @@ function addEmp() {
 }
 
 function removeEmp() {
+    let choices = [connection.query("SELECT CONCAT(first_name, ' ', last_name) as name FROM emp_trackerDB.employee")];
     inquirer
         .prompt({
             name: "name",
             type: "list",
             message: "Which employee would you like to remove?",
-            choices: [connection.query("SELECT first_name, last_name FROM employee")
-            ]
+            choices: choices
         })
         .then(function (answer) {
             connection.query(
                 "DELETE FROM employee WHERE ?",
                 {
-                    first_name: answer.choice,
+                    name: answer.name,
 
                 },
                 function (err) {

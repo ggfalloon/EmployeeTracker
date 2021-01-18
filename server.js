@@ -170,27 +170,29 @@ function addEmp() {
 }
 
 function removeEmp() {
-    let choices = connection.query("SELECT CONCAT(first_name, ' ', last_name) as name FROM emp_trackerDB.employee");
-    inquirer
-        .prompt({
-            name: "name",
-            type: "list",
-            message: "Which employee would you like to remove?",
-            choices: choices
-        })
-        .then(function (answer) {
-            connection.query(
-                "DELETE FROM employee WHERE ?",
-                {
-                    name: answer.name,
+    connection.query("SELECT id as value, CONCAT(first_name, ' ', last_name) as name FROM emp_trackerDB.employee", function (err, res) {
+        if (err) throw err;
+        inquirer
+            .prompt({
+                name: "name",
+                type: "list",
+                message: "Which employee would you like to remove?",
+                choices: res
+            })
+            .then(function (answer) {
+                connection.query(
+                    "DELETE FROM employee WHERE ?",
+                    {
+                        id: answer.name,
 
-                },
-                function (err) {
-                    if (err) throw err;
-                    console.log("The employee was deleted successfully!");
-                    updateData();
-                }
-            );
-        })
+                    },
+                    function (err) {
+                        if (err) throw err;
+                        console.log("The employee was deleted successfully!");
+                        updateData();
+                    }
+                );
+            })
+    })
 
 }

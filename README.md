@@ -21,7 +21,7 @@ Visit - https://github.com/ggfalloon/EmployeeTracker Clone the repository to you
 * Then install inquirer by typing into your command line "npm install inquirer".
 * Next add MySQL by typing "npm install mysql" into command line. Be sure to type in your mysql password to the server.js file.
 * Now you're ready to invoke the application. Type "node server.js". 
-* You'll be prompted by inquirer to answer each of the questions to updated your employee database and even check your total utilized department budget. 
+* You'll be prompted by inquirer to answer each of the questions to update your employee database and even check your total utilized department budget. 
 * When you are done updating, choose "Exit" from the list of choices to exit the program.
 
 ![EmployeeTracker](...pic...)

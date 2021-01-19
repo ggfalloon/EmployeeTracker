@@ -12,14 +12,15 @@ const connection = mysql.createConnection({
 
 connection.connect(function (err) {
     if (err) throw err;
+    console.log(" /$$$$$$$$                      /$$                                           /$$$$$$$            /$$            \n| $$_____/                     | $$                                          | $$__  $$          | $$           \n| $$      /$$$$$$/$$$$  /$$$$$$| $$ /$$$$$$ /$$   /$$ /$$$$$$  /$$$$$$       | $$  \ $$ /$$$$$$ /$$$$$$   /$$$$$$\n| $$$$$  | $$_  $$_  $$/$$__  $| $$/$$__  $| $$  | $$/$$__  $$/$$__  $$      | $$  | $$|____  $|_  $$_/  |____  $$\n| $$__/  | $$ \  $$ \  $| $$  \  $| $| $$  \  $| $$  | $| $$$$$$$| $$$$$$$$      | $$  | $$ /$$$$$$$ | $$     /$$$$$$$\n| $$     | $$ | $$ | $| $$  | $| $| $$  | $| $$  | $| $$_____| $$_____/      | $$  | $$/$$__  $$ | $$ /$$/$$__  $$\n| $$$$$$$| $$ | $$ | $| $$$$$$$| $|  $$$$$$|  $$$$$$|  $$$$$$|  $$$$$$$      | $$$$$$$|  $$$$$$$ |  $$$$|  $$$$$$$\n|________|__/ |__/ |__| $$____/|__/\______/ \____   $$  \_______/\_______/       |_______/  \_______/  \___/   \_______/\n                      | $$                  /$$ | $$                                                             \n                      | $$                 | $$$$$$/                                                             \n                      |__/                  \______/                                                               \n");
     readData();
 });
+
+
 
 function readData() {
     connection.query("SELECT A.id, A.first_name, A.last_name, title, department.name as department, salary, CONCAT(B.first_name, ' ', B.last_name) as manager FROM emp_trackerDB.employee A LEFT JOIN emp_trackerDB.employee B ON A.manager_id = B.id INNER JOIN role ON A.role_id = role.id INNER JOIN department ON department.id = department_id", function (err, res) {
         if (err) throw err;
-
-        console.log("\nHERE IS YOUR CURRENT EMPLOYEE DATABASE:\n")
         console.table(res);
         updateData();
     });

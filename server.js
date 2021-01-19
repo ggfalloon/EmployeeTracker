@@ -42,6 +42,7 @@ function updateData() {
                 "View All Departments",
                 "Add Department",
                 "Remove Department",
+                "View Total Utilized Budget by Department",
                 "Exit"
             ]
         })
@@ -85,6 +86,10 @@ function updateData() {
 
                 case "Remove Department":
                     removeDep();
+                    break;
+
+                case "View Total Utilized Budget by Department":
+                    viewBudget();
                     break;
 
                 case "Exit":
@@ -200,6 +205,9 @@ function updateEmpRole() {
                     choices: [
                         {
                             name: "Marketing Specialist", value: 11
+                        },
+                        {
+                            name: "HR Director", value: 12
                         },
                         {
                             name: "Sales Manager", value: 13
@@ -369,4 +377,12 @@ function removeDep() {
             })
     })
 
+}
+
+function viewBudget() {
+    connection.query("SELECT DISTINCT name, SUM(salary) as total_utilized_budget FROM emp_trackerDB.department INNER JOIN emp_trackerDB.role ON department.id = role.department_id GROUP BY department.id", function (err, res) {
+        if (err) throw err;
+        console.table(res);
+        updateData();
+    });
 }

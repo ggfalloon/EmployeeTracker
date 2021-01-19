@@ -310,5 +310,63 @@ function removeRole() {
                 );
             })
     })
+}
+
+function viewDep() {
+    connection.query("SELECT * FROM emp_trackerDB.department", function (err, res) {
+        if (err) throw err;
+        console.table(res);
+        updateData();
+    });
+}
+
+function addDep() {
+    inquirer
+        .prompt([
+            {
+                name: "depName",
+                type: "input",
+                message: "Department to add?"
+            },
+        ])
+        .then(function (answer) {
+            connection.query(
+                "INSERT INTO department SET ?",
+                {
+                    name: answer.depName,
+                },
+                function (err) {
+                    if (err) throw err;
+                    console.log(`${answer.depName} was added successfully!`);
+                    updateData();
+                }
+            );
+        })
+}
+
+function removeDep() {
+    connection.query("SELECT id, name as value FROM emp_trackerDB.department", function (err, res) {
+        if (err) throw err;
+        inquirer
+            .prompt({
+                name: "dpt",
+                type: "list",
+                message: "Which role would you like to remove?",
+                choices: res
+            })
+            .then(function (answer) {
+                connection.query(
+                    "DELETE FROM emp_trackerDB.department WHERE ?",
+                    {
+                        name: answer.dpt
+                    },
+                    function (err) {
+                        if (err) throw err;
+                        console.log("The department was deleted successfully!");
+                        updateData();
+                    }
+                );
+            })
+    })
 
 }

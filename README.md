@@ -15,7 +15,7 @@ Visit - https://github.com/ggfalloon/EmployeeTracker Clone the repository to you
 
 ## Usage
 
-![Watch Video Tutorial](https://drive.google.com/file/d/19hAGH4ETlSK-RPeowaDm1cKeSwqRyxkG/view?usp=sharing)
+[Watch Video Tutorial](https://drive.google.com/file/d/19hAGH4ETlSK-RPeowaDm1cKeSwqRyxkG/view?usp=sharing)
 
 * First type "npm i" in your command line to install node modules for the package.json. 
 * Then install inquirer by typing into your command line "npm install inquirer".

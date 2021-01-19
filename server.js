@@ -1,4 +1,3 @@
-// const util = require("util");
 const mysql = require("mysql");
 const inquirer = require("inquirer");
 const cTable = require('console.table');
@@ -15,8 +14,6 @@ connection.connect(function (err) {
     if (err) throw err;
     readData();
 });
-
-// connection.query = util.promisify(connection.query)
 
 function readData() {
     connection.query("SELECT A.id, A.first_name, A.last_name, title, department.name as department, salary, CONCAT(B.first_name, ' ', B.last_name) as manager FROM emp_trackerDB.employee A LEFT JOIN emp_trackerDB.employee B ON A.manager_id = B.id INNER JOIN role ON A.role_id = role.id INNER JOIN department ON department.id = department_id", function (err, res) {
@@ -38,7 +35,7 @@ function updateData() {
                 "View All Employees",
                 "Add Employee",
                 "Remove Employee",
-                "Update Emplyee Role",
+                "Update Employee Role",
                 "View All Roles",
                 "Add Role",
                 "Remove Role",
@@ -62,8 +59,8 @@ function updateData() {
                     removeEmp();
                     break;
 
-                case "Update Emplyee Role":
-                    updateEmp();
+                case "Update Employee Role":
+                    updateEmpRole();
                     break;
 
                 case "View All Roles":
@@ -97,18 +94,7 @@ function updateData() {
         });
 }
 
-// function getroleId() {
-//     return connection.query("SELECT id, title FROM emp_trackerDB.role", function (error, results) {
-//         if (error) throw error;
-//         // console.log(results);
-//     });
-// }
-
-
 function addEmp() {
-    // let roleId = await getroleId();
-    // console.log(roleId);
-    // let mgrId = connection.query("SELECT CONCAT(first_name, ' ', last_name) as manager FROM emp_trackerDB.employee")
     inquirer
         .prompt([
             {
@@ -136,21 +122,22 @@ function addEmp() {
                         name: "Software Engineer", value: 14
                     }
                 ]
-                // Write code to convert to role id #
             },
             {
                 name: 'mgr',
                 type: 'list',
                 message: 'New employee manager?',
                 choices: [
-                    { name: "Brad Pitt", value: 21 },
-                    { name: "Beyonce Knowles", value: 22 }
+                    {
+                        name: "Brad Pitt", value: 21
+                    },
+                    {
+                        name: "Beyonce Knowles", value: 22
+                    }
                 ]
-                // Write code to convert to manager id #
             },
         ])
         .then(function (answer) {
-            console.log(answer);
             connection.query(
                 "INSERT INTO employee SET ?",
                 {
@@ -166,7 +153,6 @@ function addEmp() {
                 }
             );
         })
-
 }
 
 function removeEmp() {
@@ -184,11 +170,55 @@ function removeEmp() {
                     "DELETE FROM employee WHERE ?",
                     {
                         id: answer.name,
-
                     },
                     function (err) {
                         if (err) throw err;
                         console.log("The employee was deleted successfully!");
+                        updateData();
+                    }
+                );
+            })
+    })
+
+}
+
+function updateEmpRole() {
+    connection.query("SELECT id value, CONCAT(first_name, ' ', last_name) as name FROM emp_trackerDB.employee", function (err, res) {
+        if (err) throw err;
+        inquirer
+            .prompt([
+                {
+                    name: "name",
+                    type: "list",
+                    message: "Which employee's role would you like to update?",
+                    choices: res
+                },
+                {
+                    name: 'role',
+                    type: 'list',
+                    message: "Employee's new role",
+                    choices: [
+                        {
+                            name: "Marketing Specialist", value: 11
+                        },
+                        {
+                            name: "Sales Manager", value: 13
+                        },
+                        {
+                            name: "Software Engineer", value: 14
+                        }
+                    ]
+                },
+            ])
+            .then(function (answer) {
+                connection.query(
+                    "UPDATE employee SET role_id = ? WHERE id = ? ",
+                    [answer.role, answer.name],
+
+                    function (err) {
+                        if (err) throw err;
+
+                        console.log("The employee was updated successfully!");
                         updateData();
                     }
                 );

@@ -226,3 +226,89 @@ function updateEmpRole() {
     })
 
 }
+
+function viewRoles() {
+    connection.query("SELECT title AS Roles FROM emp_trackerDB.role", function (err, res) {
+        if (err) throw err;
+        console.table(res);
+        updateData();
+    });
+}
+
+function addRole() {
+    inquirer
+        .prompt([
+            {
+                name: "roleTitle",
+                type: "input",
+                message: "Role to add?"
+            },
+            {
+                name: 'roleSalary',
+                type: 'input',
+                message: 'Role Salary?'
+            },
+
+            {
+                name: 'roleDpt',
+                type: 'list',
+                message: 'Role Department?',
+                choices: [
+                    {
+                        name: "Marketing", value: 1
+                    },
+                    {
+                        name: "Human Resources", value: 2
+                    },
+                    {
+                        name: "Sales", value: 3
+                    },
+                    {
+                        name: "Engineering", value: 4
+                    }
+                ]
+            },
+        ])
+        .then(function (answer) {
+            connection.query(
+                "INSERT INTO role SET ?",
+                {
+                    title: answer.roleTitle,
+                    salary: answer.roleSalary,
+                    department_id: answer.roleDpt
+                },
+                function (err) {
+                    if (err) throw err;
+                    console.log(`${answer.roleTitle} was added successfully!`);
+                    updateData();
+                }
+            );
+        })
+}
+
+function removeRole() {
+    connection.query("SELECT id, title as value FROM emp_trackerDB.role", function (err, res) {
+        if (err) throw err;
+        inquirer
+            .prompt({
+                name: "role",
+                type: "list",
+                message: "Which role would you like to remove?",
+                choices: res
+            })
+            .then(function (answer) {
+                connection.query(
+                    "DELETE FROM emp_trackerDB.role WHERE ?",
+                    {
+                        title: answer.role
+                    },
+                    function (err) {
+                        if (err) throw err;
+                        console.log("The role was deleted successfully!");
+                        updateData();
+                    }
+                );
+            })
+    })
+
+}

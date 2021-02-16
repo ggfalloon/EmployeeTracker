@@ -3,6 +3,7 @@ CLI application for easily managing company employees, utilizing MySQL database.
 
 ## Table of Contents
 
+* [Technologies](#technologies) 
 * [Installation](#installation)
 * [Usage](#usage)
 * [Credits](#credits)
@@ -10,12 +11,20 @@ CLI application for easily managing company employees, utilizing MySQL database.
 * [Questions](#questions)
 * [License](#license)
 
+## Technologies
+
+* Nodejs (npm - inquirer)
+* MySQL
+* JavaScript
+
 ## Installation
 Visit - https://github.com/ggfalloon/EmployeeTracker Clone the repository to your local machine. (Requires Node.js and MySQL)
 
 ## Usage
 
 [Watch Video Tutorial](https://drive.google.com/file/d/19hAGH4ETlSK-RPeowaDm1cKeSwqRyxkG/view?usp=sharing)
+
+
 
 * First type "npm i" in your command line to install node modules for the package.json. 
 * Then install inquirer by typing into your command line "npm install inquirer".

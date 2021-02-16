@@ -24,7 +24,7 @@ Visit - https://github.com/ggfalloon/EmployeeTracker Clone the repository to you
 
 [Watch Video Tutorial](https://drive.google.com/file/d/19hAGH4ETlSK-RPeowaDm1cKeSwqRyxkG/view?usp=sharing)
 
-
+![EmpTracker](https://user-images.githubusercontent.com/71281652/105089215-728bee00-5a62-11eb-9002-36c6bb030f5f.png)
 
 * First type "npm i" in your command line to install node modules for the package.json. 
 * Then install inquirer by typing into your command line "npm install inquirer".
@@ -32,8 +32,6 @@ Visit - https://github.com/ggfalloon/EmployeeTracker Clone the repository to you
 * Now you're ready to invoke the application. Type "node server.js". 
 * You'll be prompted by inquirer to answer each of the questions to update your employee database and even check your total utilized department budget. 
 * When you are done updating, choose "Exit" from the list of choices to exit the program.
-
-![EmpTracker](https://user-images.githubusercontent.com/71281652/105089215-728bee00-5a62-11eb-9002-36c6bb030f5f.png)
 
 ## Credits
 
